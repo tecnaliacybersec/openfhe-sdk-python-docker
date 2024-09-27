@@ -41,10 +41,10 @@ jobs:
         run: |
           docker build \
             --no-cache \
-            --build-arg OPENFHE_TAG=${OPENFHE_TAG} \
-            --build-arg OPENFHE_SDK_PYTHON_TAG=${OPENFHE_SDK_PYTHON_TAG} \
-            -t ghcr.io/${{ github.repository_owner }}/${IMAGE}:${{ github.sha }} \
-            -t ghcr.io/${{ github.repository_owner }}/${IMAGE}:${OPENFHE_TAG} .
+            --build-arg OPENFHE_TAG=$OPENFHE_TAG \
+            --build-arg OPENFHE_SDK_PYTHON_TAG=$OPENFHE_SDK_PYTHON_TAG \
+            -t ghcr.io/${{ github.repository_owner }}/$IMAGE:${{ github.sha }} \
+            -t ghcr.io/${{ github.repository_owner }}/$IMAGE:$OPENFHE_TAG .
 
       # Push the Docker image to GHCR
       - name: Push Docker images to GHCR
