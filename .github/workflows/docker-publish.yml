@@ -10,26 +10,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:  # Definir variables aquí
+      IMAGE: openfhe-sdk-python
+      OPENFHE_TAG: v1.2.1
+      OPENFHE_SDK_PYTHON_TAG: v0.8.9
+
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      # Load the .env file
-      - name: Load environment variables from .env
-        run: |
-          if [ ! -f .env ]; then
-            echo ".env file not found, aborting!"
-            exit 1
-          fi
-          # Load variables from .env
-          set -o allexport
-          source .env
-          set +o allexport
-        env: 
-          IMAGE: ${IMAGE}
-          OPENFHE_TAG: ${OPENFHE_TAG}
-          OPENFHE_SDK_PYTHON_TAG: ${OPENFHE_SDK_PYTHON_TAG}
 
       # Log in to GHCR (GitHub Container Registry)
       - name: Log in to GHCR
