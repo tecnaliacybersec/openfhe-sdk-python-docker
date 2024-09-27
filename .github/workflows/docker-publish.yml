@@ -11,19 +11,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Clona el repositorio
+      # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Inicia sesión en GHCR (GitHub Container Registry)
+      # Load the .env file
+      - name: Load environment variables from .env
+        run: |
+          set -o allexport
+          source .env
+          set +o allexport
+        shell: bash
+
+      # Log in to GHCR (GitHub Container Registry)
       - name: Log in to GHCR
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      # Construye la imagen Docker
+      # Build the Docker image and pass the environment variables as build arguments
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ github.repository_owner }}/my-app:${{ github.sha }} .
+        run: |
+          docker build \
+            --no-cache \
+            --build-arg OPENFHE_TAG=${OPENFHE_TAG} \
+            --build-arg OPENFHE_SDK_PYTHON_TAG=${OPENFHE_SDK_PYTHON_TAG} \
+            -t ghcr.io/${{ github.repository_owner }}/${IMAGE}:${{ github.sha }} \
+            -t ghcr.io/${{ github.repository_owner }}/${IMAGE}:${OPENFHE_TAG} .
 
-      # Empuja la imagen a GHCR
-      - name: Push Docker image to GHCR
-        run: docker push ghcr.io/${{ github.repository_owner }}/my-app:${{ github.sha }}
+      # Push the Docker image to GHCR
+      - name: Push Docker images to GHCR
+        run: |
+          # Push the main app image
+          docker push ghcr.io/${{ github.repository_owner }}/${IMAGE}:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository_owner }}/${IMAGE}:${OPENFHE_TAG}
 
