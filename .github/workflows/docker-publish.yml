@@ -18,10 +18,18 @@ jobs:
       # Load the .env file
       - name: Load environment variables from .env
         run: |
+          if [ ! -f .env ]; then
+            echo ".env file not found, aborting!"
+            exit 1
+          fi
+          # Load variables from .env
           set -o allexport
           source .env
           set +o allexport
-        shell: bash
+        env: 
+          IMAGE: ${IMAGE}
+          OPENFHE_TAG: ${OPENFHE_TAG}
+          OPENFHE_SDK_PYTHON_TAG: ${OPENFHE_SDK_PYTHON_TAG}
 
       # Log in to GHCR (GitHub Container Registry)
       - name: Log in to GHCR
