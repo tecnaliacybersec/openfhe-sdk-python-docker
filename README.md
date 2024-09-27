@@ -2,6 +2,8 @@
 
 A simple image based on Debian slim that can be used to run the official Python wrapper for OpenFHE.
 
+The Python wrapper for OpenFHE is available at https://github.com/openfheorg/openfhe-python. 
+
 # Build the docker image:
 
 Default config:
