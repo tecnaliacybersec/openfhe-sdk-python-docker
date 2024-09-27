@@ -1,0 +1,29 @@
+name: Build and Push Docker Image
+
+# El flujo se ejecuta en cada push a la rama main
+on:
+  push:
+    branches:
+      - main  # O la rama que prefieras
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clona el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Inicia sesión en GHCR (GitHub Container Registry)
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      # Construye la imagen Docker
+      - name: Build Docker image
+        run: docker build -t ghcr.io/${{ github.repository_owner }}/my-app:${{ github.sha }} .
+
+      # Empuja la imagen a GHCR
+      - name: Push Docker image to GHCR
+        run: docker push ghcr.io/${{ github.repository_owner }}/my-app:${{ github.sha }}
+
