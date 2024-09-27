@@ -36,5 +36,8 @@ Replace the <container-name> with the name that you see when you use the command
 You can now clone a github repo that depends on OpenFHE and run the code.
 
 
-# Why use this image and not ?
+# Why use this image and not the Official Python wrapper for OpenFHE ?
+
+- It based on Debian instead on ubuntu so the size is smaller 
+- You can choose what is the version of OpenFHE you want to use
 
