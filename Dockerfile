@@ -12,15 +12,19 @@ ARG OPENFHE_SDK_PYTHON_TAG=main
 
 # Install necessary dependencies for OpenFHE and OpenFHE-Python
 RUN apt-get update && apt-get install -y \
-    autoconf \
-    automake \
+    clang \
     cmake \
     git \
+    libomp-dev \
     python3-minimal \
     python3-pip \
     python3-venv \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
+
+# Set clang as the C and C++ compiler
+ENV CC=clang \
+    CXX=clang++
 
 # Set up Python virtual environment
 RUN python3 -m venv /opt/venv
