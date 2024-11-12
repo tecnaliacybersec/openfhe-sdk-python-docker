@@ -66,6 +66,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Install runtime dependencies using python3-minimal
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libomp5 \
     python3-minimal \
     python3-venv \
     && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
