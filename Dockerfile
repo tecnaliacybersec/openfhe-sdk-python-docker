@@ -12,10 +12,13 @@ ARG OPENFHE_SDK_PYTHON_TAG=main
 
 # Install necessary dependencies for OpenFHE and OpenFHE-Python
 RUN apt-get update && apt-get install -y \
+    autoconf \
     clang \
     cmake \
     git \
+    libgoogle-perftools-dev \
     libomp-dev \
+    libtool \
     python3-minimal \
     python3-pip \
     python3-venv \
@@ -38,7 +41,8 @@ RUN git clone https://github.com/openfheorg/openfhe-development.git --branch ${O
     && cd openfhe-development \
     && mkdir build \
     && cd build \
-    && cmake -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_BENCHMARKS=OFF .. \
+    && cmake -DBUILD_UNITTESTS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_BENCHMARKS=OFF -DWITH_TCM=ON .. \
+    && make tcm \
     && make -j$(nproc) \
     && make install
 
@@ -66,6 +70,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Install runtime dependencies using python3-minimal
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgoogle-perftools4t64 \
     libomp5 \
     python3-minimal \
     python3-venv \
