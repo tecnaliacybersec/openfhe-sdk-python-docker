@@ -1,5 +1,5 @@
 # Stage 1: Build Stage
-FROM debian:trixie-slim AS builder
+FROM debian:bookworm-slim AS builder
 
 # Set environment variables to non-interactive and other necessary settings
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -57,7 +57,7 @@ WORKDIR /openfhe-python
 RUN python3 setup.py sdist bdist_wheel && pip install dist/openfhe-*.whl
 
 # Stage 2: Runtime Stage
-FROM debian:trixie-slim AS runtime
+FROM debian:bookworm-slim AS runtime
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
