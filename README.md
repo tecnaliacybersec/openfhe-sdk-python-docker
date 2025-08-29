@@ -10,8 +10,8 @@ Default config:
 
 ```env
 IMAGE=openfhe-sdk-python
-OPENFHE_TAG=v1.3.0
-OPENFHE_SDK_PYTHON_TAG=v1.3.0.0
+OPENFHE_TAG=v1.3.1
+OPENFHE_SDK_PYTHON_TAG=v1.3.1.0
 ```
 
 To build the image use the following command:
